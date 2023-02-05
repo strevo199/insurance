@@ -11,7 +11,7 @@ export type MainLayoutPropsType = {
   title: string;
   hasBackButton?: boolean;
   hasRightIcon?: boolean;
-  BotttomButtonTitle: string;
+  BotttomButtonTitle?: string;
   hasBottomButton?: boolean;
   BotttomButtonFunction?: () => void;
   children?: JSX.Element | JSX.Element[];
