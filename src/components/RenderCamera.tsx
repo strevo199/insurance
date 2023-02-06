@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Box} from './layouts';
 import {Text} from './Typography';
 import {RNCamera} from 'react-native-camera';
