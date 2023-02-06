@@ -10,7 +10,6 @@ import {palette} from '../../theme/palette';
 export type MainLayoutPropsType = {
   title: string;
   hasBackButton?: boolean;
-  hasRightIcon?: boolean;
   BotttomButtonTitle?: string;
   hasBottomButton?: boolean;
   BotttomButtonFunction?: () => void;
@@ -24,7 +23,6 @@ export const MainLayout = ({
   BotttomButtonTitle = 'Continue',
   children,
   BotttomButtonFunction,
-  hasRightIcon = false,
 }: MainLayoutPropsType) => {
   const navigation = useNavigation();
   const RenderHeader = () => {
@@ -52,20 +50,8 @@ export const MainLayout = ({
         <Text variant="bold22" color="white">
           {title}
         </Text>
-        {hasRightIcon ? (
-          <TouchableOpacity onPress={() => navigation.navigate('AddAvaluable')}>
-            <Image
-              style={{
-                height: 35,
-                width: 35,
-                tintColor: palette.white,
-              }}
-              source={add}
-            />
-          </TouchableOpacity>
-        ) : (
-          <Box />
-        )}
+
+        <Box />
       </Box>
     );
   };
@@ -75,7 +61,7 @@ export const MainLayout = ({
       <Box flex={1} backgroundColor="mainBackground">
         {RenderHeader()}
         <Box
-          backgroundColor={'white'}
+          backgroundColor="whiteColor"
           flex={1}
           overflow="hidden"
           position={'relative'}

@@ -1,7 +1,13 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 export type RootStackParamtersList = {
-  UserValuableList: undefined;
+  UserValuableList: {
+    name: string;
+    description: string;
+    purchasePrice: number;
+    type: string;
+    photo: string;
+  };
   AddAvaluable: undefined;
 };
 

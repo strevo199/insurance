@@ -2,6 +2,7 @@
 import React from 'react';
 import {KeyboardType, TextInput} from 'react-native/';
 import {Box, Text} from '.';
+import {palette} from '../theme/palette';
 
 type SimpleInputType = {
   value?: string;
@@ -17,7 +18,7 @@ export const SimpleInput = ({
   value,
   height = 62,
   label,
-  keyboardType='default',
+  keyboardType = 'default',
   placeholder,
   multiline = false,
   onChangeText,
@@ -41,6 +42,7 @@ export const SimpleInput = ({
           fontSize: 20,
           padding: 0,
           maxHeight: 50,
+          color: palette.textColor,
           justifyContent: 'center',
         }}
         value={value}

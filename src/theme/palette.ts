@@ -10,6 +10,7 @@ export const palette = {
   secondaryBlack: '#141414',
   secondaryColor: '#0089FF',
   white: '#ffffff',
+  whiteColor: '#ffffff',
   textTint: '#616E88',
   textTint2: '#E3EAED',
   textTint3: '#323D44',

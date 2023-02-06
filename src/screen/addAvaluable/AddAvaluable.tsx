@@ -67,7 +67,7 @@ export const AddAvaluable = ({
             fileNameURI = fileNameURI
               .replace('file:///', '')
               .replace('file://', '');
-            fileNameURI = fileNameURI.replaceAll('%20', ' ');
+            fileNameURI = fileNameURI.split('%20').join(' ');
           }
 
           RNFB.fs
@@ -84,7 +84,7 @@ export const AddAvaluable = ({
                 ifSteam.onData(chunk => {
                   data += chunk;
                 });
-                ifSteam.onError(error => {
+                ifSteam.onError(_error => {
                   Alert.alert('Error', 'file loading error');
                 });
                 ifSteam.onEnd(() => {
@@ -103,7 +103,7 @@ export const AddAvaluable = ({
 
   const handleContinue = () => {
     let error = false;
-    const errorField = [];
+    const errorField: string[] = [];
     Object.entries(newvalueData).map(item => {
       if (item[1] === '') {
         errorField.push(item[0]);
@@ -131,7 +131,9 @@ export const AddAvaluable = ({
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={200}
         style={{flex: 1}}>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          contentContainerStyle={{paddingBottom: 70}}
+          showsVerticalScrollIndicator={false}>
           <Box marginHorizontal={'md'}>
             {photo ? (
               <Box

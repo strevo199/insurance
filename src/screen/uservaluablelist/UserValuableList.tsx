@@ -1,9 +1,12 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 import React, {useEffect, useState} from 'react';
-import {Alert, FlatList} from 'react-native';
+import {Alert, FlatList, Image, TouchableOpacity} from 'react-native';
 import {Box, Card, MainLayout} from '../../components';
 import {RootNavigationProps} from '../../navigation/type';
 import {insuredData} from './data';
+import {add} from '../../assets/images';
+import {palette} from '../../theme/palette';
 
 export type ItemType = {
   name: string;
@@ -12,8 +15,8 @@ export type ItemType = {
   type: string;
   photo: string;
 };
-
 export const UserValuableList = ({
+  navigation,
   route,
 }: RootNavigationProps<'UserValuableList'>) => {
   const {newvalueData} = route.params || {};
@@ -57,6 +60,28 @@ export const UserValuableList = ({
           keyExtractor={(item, index) => `item-${index}`}
         />
       </Box>
+      <TouchableOpacity
+        style={{
+          height: 60,
+          width: 60,
+          position: 'absolute',
+          right: 10,
+          bottom: 50,
+          elevation:5,
+          backgroundColor:'white',
+          borderRadius:40
+        }}
+        onPress={() => navigation.navigate('AddAvaluable')}>
+        <Image
+          style={{
+            width: '100%',
+            height: '100%',
+            tintColor: palette.primaryColor,
+          }}
+          source={add}
+          resizeMode="contain"
+        />
+      </TouchableOpacity>
     </MainLayout>
   );
 };
