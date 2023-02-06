@@ -10,13 +10,14 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {camera, trash} from '../../assets/images';
-import {Box, MainLayout, Text} from '../../components';
+import {Box, MainLayout, RenderCamera, Text} from '../../components';
 import {SimpleInput} from '../../components/SimpleInput';
 import {palette} from '../../theme/palette';
 import DocumentPicker from 'react-native-document-picker';
 import RNFB from 'rn-fetch-blob';
 import SelectDropdown from 'react-native-select-dropdown';
 import {RootNavigationProps} from '../../navigation/type';
+import Modal from 'react-native-modal';
 
 type ItemType = {
   name: string;
@@ -38,6 +39,7 @@ export const AddAvaluable = ({
     type: '',
     photo: '',
   });
+  const [snappedUri, setsnappedUri] = useState<string>('');
 
   type updateValueDataType = {
     label: keyof typeof newvalueData;
@@ -46,6 +48,8 @@ export const AddAvaluable = ({
 
   const {name, description, purchasePrice, photo} = newvalueData;
   const [loadingDocument, setloadingDocument] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [isCameraModalVisible, setCameraModalVisible] = useState(false);
 
   const updateValueData = ({label, value}: updateValueDataType) => {
     setNewvalueData({
@@ -55,6 +59,7 @@ export const AddAvaluable = ({
   };
 
   const handlePickingFile = async () => {
+    setModalVisible(!isModalVisible);
     let data = '';
     try {
       await DocumentPicker.pick({
@@ -120,6 +125,20 @@ export const AddAvaluable = ({
     }
   };
 
+  const handleCloseCamera = () => {
+    setCameraModalVisible(!isCameraModalVisible);
+    let data = snappedUri;
+    if (Platform.OS === 'ios') {
+      data = data.replace('file:///', '').replace('file://', '');
+      data = data.split('%20').join(' ');
+    }
+    updateValueData({label: 'photo', value: data});
+    setsnappedUri('')
+  };
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
   return (
     <MainLayout
       title={'Add Valuables'}
@@ -189,7 +208,7 @@ export const AddAvaluable = ({
                   marginVertical: 24,
                 }}
                 activeOpacity={0.7}
-                onPress={loadingDocument ? () => {} : handlePickingFile}>
+                onPress={loadingDocument ? () => {} : toggleModal}>
                 {loadingDocument ? (
                   <ActivityIndicator size={'large'} />
                 ) : (
@@ -246,6 +265,73 @@ export const AddAvaluable = ({
               />
             </Box>
           </Box>
+          <Modal
+            hasBackdrop
+            onBackdropPress={() => setModalVisible(!isModalVisible)}
+            style={{justifyContent: 'flex-end', margin: 0, marginBottom: 1}}
+            isVisible={isModalVisible}>
+            <Box
+              backgroundColor={'whiteColor'}
+              borderTopRightRadius="lg"
+              borderTopLeftRadius={'lg'}
+              height={250}
+              gap="xs"
+              padding={'md'}
+              width={'100%'}>
+              <Box alignItems={'center'} marginVertical="md">
+                <Text
+                  color="textColor"
+                  textTransform={'uppercase'}
+                  variant={'bold18'}>
+                  Upload Option
+                </Text>
+              </Box>
+              <TouchableOpacity
+                onPress={handlePickingFile}
+                style={{
+                  height: 40,
+                  borderBottomColor: palette.grayLight,
+                  borderBottomWidth: 0.5,
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  textTransform={'uppercase'}
+                  color="textColor"
+                  variant={'bold16'}>
+                  Select from Device
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setModalVisible(!isModalVisible);
+                  setCameraModalVisible(!isCameraModalVisible);
+                }}
+                style={{height: 40, justifyContent: 'center'}}>
+                <Text
+                  color="textColor"
+                  textTransform={'uppercase'}
+                  variant={'bold16'}>
+                  Take a snapshot
+                </Text>
+              </TouchableOpacity>
+              {/* <T textext>Hello!</Text>
+
+          <Button title="Hide modal" onPress={toggleModal} /> */}
+            </Box>
+          </Modal>
+
+          <Modal
+            hasBackdrop
+            onBackdropPress={() => setCameraModalVisible(!isCameraModalVisible)}
+            style={{justifyContent: 'flex-end', margin: 0, marginBottom: 0}}
+            isVisible={isCameraModalVisible}>
+            <RenderCamera
+              snappedUri={snappedUri}
+              handleCloseCamera={handleCloseCamera}
+              setsnappedUri={setsnappedUri}
+              setCameraModalVisible={setCameraModalVisible}
+            />
+          </Modal>
         </ScrollView>
       </KeyboardAvoidingView>
     </MainLayout>
