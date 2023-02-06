@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 import React, {useEffect, useState} from 'react';
@@ -27,18 +28,35 @@ export const UserValuableList = ({
   useEffect(() => {
     if (newvalueData) {
       let sumOfPurchasePrice = 0;
-      for (let i = 0; i < insuredDataList.length; i++) {
-        sumOfPurchasePrice += insuredDataList[i].purchasePrice;
-      }
+      // for (let i = 0; i < insuredDataList.length; i++) {
+      //   sumOfPurchasePrice += insuredDataList[i].purchasePrice;
+      // }
 
-      if (sumOfPurchasePrice < 40000) {
-        setinsuredDataList(current => [...current, newvalueData]);
-      } else {
-        Alert.alert(
+      setinsuredDataList(current => {
+        for (let i = 0; i < current.length; i++) {
+          sumOfPurchasePrice += current[i].purchasePrice;
+        }
+        if (sumOfPurchasePrice > 40000) {
+                 Alert.alert(
           'Opps!!!',
           'Your total valuables can not exceed  40,000 euros',
         );
-      }
+          return current;
+        } else {
+          console.log('no');
+          return [...current, newvalueData];
+        }
+        // [...current, newvalueData]
+      });
+
+      // if (sumOfPurchasePrice < 40000) {
+      //   setinsuredDataList(current => [...current, newvalueData]);
+      // } else {
+      //   Alert.alert(
+      //     'Opps!!!',
+      //     'Your total valuables can not exceed  40,000 euros',
+      //   );
+      // }
     }
 
     // }
@@ -67,9 +85,9 @@ export const UserValuableList = ({
           position: 'absolute',
           right: 10,
           bottom: 50,
-          elevation:5,
-          backgroundColor:'white',
-          borderRadius:40
+          elevation: 5,
+          backgroundColor: 'white',
+          borderRadius: 40,
         }}
         onPress={() => navigation.navigate('AddAvaluable')}>
         <Image
