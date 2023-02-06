@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 import React, {useEffect, useState} from 'react';
@@ -28,35 +27,33 @@ export const UserValuableList = ({
   useEffect(() => {
     if (newvalueData) {
       let sumOfPurchasePrice = 0;
-      // for (let i = 0; i < insuredDataList.length; i++) {
-      //   sumOfPurchasePrice += insuredDataList[i].purchasePrice;
-      // }
+      const checkingArray = [...insuredDataList, newvalueData]
+      for (let i = 0; i < checkingArray.length; i++) {
+        sumOfPurchasePrice += checkingArray[i].purchasePrice;
+      }
+
+      if (sumOfPurchasePrice > 40000) {
+        Alert.alert(
+          'Opps!!!',
+          'Your total valuables can not exceed  40,000 euros',
+        );
+      }
 
       setinsuredDataList(current => {
         for (let i = 0; i < current.length; i++) {
           sumOfPurchasePrice += current[i].purchasePrice;
         }
         if (sumOfPurchasePrice > 40000) {
-                 Alert.alert(
-          'Opps!!!',
-          'Your total valuables can not exceed  40,000 euros',
-        );
+          Alert.alert(
+            'Opps!!!',
+            'Your total valuables can not exceed  40,000 euros',
+          );
           return current;
         } else {
           console.log('no');
           return [...current, newvalueData];
         }
-        // [...current, newvalueData]
       });
-
-      // if (sumOfPurchasePrice < 40000) {
-      //   setinsuredDataList(current => [...current, newvalueData]);
-      // } else {
-      //   Alert.alert(
-      //     'Opps!!!',
-      //     'Your total valuables can not exceed  40,000 euros',
-      //   );
-      // }
     }
 
     // }

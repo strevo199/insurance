@@ -110,7 +110,7 @@ export const AddAvaluable = ({
     let error = false;
     const errorField: string[] = [];
     Object.entries(newvalueData).map(item => {
-      if (item[1] === '') {
+      if (item[1] === '' || item[1] === 0) {
         errorField.push(item[0]);
         error = true;
       }
