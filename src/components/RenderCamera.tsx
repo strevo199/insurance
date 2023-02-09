@@ -71,7 +71,7 @@ export const RenderCamera = ({
           ref={cameraRef}
           type={RNCamera.Constants.Type.back}
           style={styles.preview}>
-          <Box justifyContent={'center'} alignItems="center">
+          <Box justifyContent={'center'} marginBottom={'lg'} alignItems="center">
             <TouchableOpacity onPress={captureHandle} style={styles.camBtn} />
           </Box>
         </RNCamera>
@@ -87,9 +87,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   camBtn: {
-    height: 50,
-    width: 50,
-    borderRadius: 25,
+    height: 60,
+    width: 60,
+    borderRadius: 30,
+    borderStyle: 'dotted',
+    borderWidth: 1,
+    borderColor: 'red',
     backgroundColor: 'white',
   },
 });
